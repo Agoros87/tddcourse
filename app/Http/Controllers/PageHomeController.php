@@ -12,7 +12,7 @@ class PageHomeController extends Controller
         $courses = Course::query()
             ->released()
             ->orderByDesc('released_at')
-        ->get();
+            ->get();
 
         return view('home', compact('courses'));
     }
