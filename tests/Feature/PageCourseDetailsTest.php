@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Course;
+use App\Models\Video;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use function Pest\Laravel\get;
 
@@ -10,7 +11,7 @@ it('shows course details', function () {
     //Arrange
     $course = Course::factory()->create([
         'tagLine' => 'Course tagline',
-        'image' => 'course.png',
+        'image' => 'image.png',
         'learnings' => [
             'learn laravel router',
             'learn laravel views',
@@ -33,9 +34,14 @@ get(route('course-details', $course))
 });
 
 it('shows course video count', function () {
+
     //Arrange
+    $course = Course::factory()->create();
+    Video::factory()->count(3)->create(['course_id' => $course->id]);
 
     //Act
-
+    get(route('course-details', $course))
+        ->assertOk()
+        ->assertSeeText('3 videos');
     //Assert
 });
