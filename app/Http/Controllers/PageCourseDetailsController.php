@@ -12,6 +12,8 @@ class PageCourseDetailsController extends Controller
         if (!$course->released_at) {
             throw new NotFoundHttpException();
         }
-        return view('course-details', compact('course'));
+
+        $course->loadCount('videos')->toSql();
+        return view('pages.course-details', compact('course'));
     }
 }
