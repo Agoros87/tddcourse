@@ -20,7 +20,7 @@ it('only returns released courses for released scope', function () {
 it('has videos', function () {
     //Arrange
     $course = Course::factory()->create();
-    $video = Video::factory()->create(['course_id' => $course->id]);
+    $video = Video::factory()->count(3)->create(['course_id' => $course->id]);
 
     //Act
     expect($course->videos)

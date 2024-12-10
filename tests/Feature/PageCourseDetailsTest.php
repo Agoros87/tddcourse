@@ -7,37 +7,37 @@ use function Pest\Laravel\get;
 
 uses(RefreshDatabase::class);
 
+it('does not find unrealeased couse', function () {
+    // Arrange
+    $course = Course::factory()->create();
+    get(route('course-details', $course))
+        ->assertNotFound();
+});
+
 it('shows course details', function () {
-    //Arrange
-    $course = Course::factory()->create([
-        'tagLine' => 'Course tagline',
-        'image' => 'image.png',
-        'learnings' => [
-            'learn laravel router',
-            'learn laravel views',
-            'learn laravel commands',
-        ]
-    ]);
-    //Act
-get(route('course-details', $course))
-    ->assertOk()
-    ->assertSeeText([
-        $course-> title,
-        $course-> description,
-    'Course tagline',
-    'learn laravel router',
-            'learn laravel views',
-            'learn laravel commands',
-    ])
+    // Arrange
+    $course = Course::factory()->released()->create();
+
+    // Act
+    get(route('course-details', $course))
+        ->assertOk()
+        ->assertSeeText([
+            $course->title,
+            $course->description,
+            $course->tagline,
+            ...$course->learnings,
+        ])
+        ->assertSee(asset("images/{$course->image_name}"));
     //Assert
-    ->assertSee('image.png');
 });
 
 it('shows course video count', function () {
 
     //Arrange
-    $course = Course::factory()->create();
-    Video::factory()->count(3)->create(['course_id' => $course->id]);
+    $course = Course::factory()
+        ->released()
+        ->has(Video::factory()->count(3))
+        ->create();
 
     //Act
     get(route('course-details', $course))
