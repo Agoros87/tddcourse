@@ -1,8 +1,10 @@
 <?php
 
 use App\Models\Course;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
+use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
 
 uses(RefreshDatabase::class);
@@ -19,4 +21,15 @@ it(' gives back successeful for course details page', function () {
         ->assertOk();
 
     //Act
+});
+
+it('gives back successful for dashboard page', function () {
+    //Arrange
+    $user = User::factory()->create();
+
+    //Act
+   $this->actingAs($user);
+   get(route('dashboard'))
+       ->assertOk();
+
 });
