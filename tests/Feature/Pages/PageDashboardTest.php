@@ -74,10 +74,10 @@ it('includes link to product videos', function () {
         ->has(Course::factory())
         ->create();
     //Act
-$this->actingAs($user);
-get(route('dashboard'))
-    ->assertOk()
-    ->assertSeeText('Watch videos')
-    ->assertSee(route('page.course-videos', Course::first()));
+    $this->actingAs($user);
+    get(route('dashboard'))
+        ->assertOk()
+        ->assertSeeText('Watch videos')
+        ->assertSee(route('page.course-videos', Course::first()));
     //Assert
 });
