@@ -33,3 +33,9 @@ it('gives back successful for dashboard page', function () {
        ->assertOk();
 
 });
+
+it('does not find Jetstream registration page', function () {
+    //Act & Assert
+    get('register')
+        ->assertNotFound();
+});
