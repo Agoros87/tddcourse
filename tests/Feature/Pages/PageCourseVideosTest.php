@@ -17,7 +17,9 @@ it('cannot be accessed by guest', function () {
 
 it('includes a video player', function () {
     //Arrange
-    $course = Course::factory()->create();
+    $course = Course::factory()
+    ->has(Video::factory())
+        ->create();
     //Act & Assert
     loginAsUser();
     get(route('pages.course-videos', $course))
@@ -26,14 +28,11 @@ it('includes a video player', function () {
 });
 
 it('shows first course video by default', function () {
-    //Arrange
+    // Arrange
     $course = Course::factory()
         ->has(Video::factory()->state(['title' => 'First Video']))
         ->create();
-
-
-    //Act & Assert
-
+    // Act & Assert
     loginAsUser();
     get(route('pages.course-videos', $course))
         ->assertOk()
@@ -45,7 +44,7 @@ it('shows provided course video', function () {
     $course = Course::factory()
         ->has(
             Video::factory()
-                ->state(new Sequence(
+                ->state(new \Illuminate\Database\Eloquent\Factories\Sequence(
                     ['title' => 'First Video'],
                     ['title' => 'Second Video'],
                 ))
