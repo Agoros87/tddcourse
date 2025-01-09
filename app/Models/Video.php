@@ -20,11 +20,16 @@ class Video extends Model
 
     }
 
+    public function alreadyWatchedByCurrentUser(): bool
+    {
+        return (bool) auth()->user()->watchedVideos()->where('video_id', $this->id)->count();
+    }
+
+
     public function course(): BelongsTo
     {
         return $this->belongsTo(Course::class);
     }
-
 
 
 }
