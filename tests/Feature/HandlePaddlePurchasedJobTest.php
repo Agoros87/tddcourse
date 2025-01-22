@@ -9,16 +9,8 @@ use App\Models\User;
 use function Pest\Laravel\assertDatabaseCount;
 use function Pest\Laravel\assertDatabaseHas;
 
-it('store paddle purchased', function () {
-    //Assert
-    $this->assertDatabaseEmpty(User::class);
-    $this->assertDatabaseEmpty(PurchasedCourse::class);
-    //Arrange
-
-    $course = Course::factory()->create([
-        'paddle_product_id' => 'pro_01jhqsgbk6gddxbgy0vtwn6gbf',
-    ]);
-    $webhookCall = \Spatie\WebhookClient\Models\WebhookCall::create([
+beforeEach(function () {
+    $this->dummyWebhookCall = \Spatie\WebhookClient\Models\WebhookCall::create([
         'name' => 'default',
         'url' => 'some-url',
         'payload' => [
@@ -28,8 +20,21 @@ it('store paddle purchased', function () {
         ]
 
     ]);
+});
+
+it('store paddle purchased', function () {
+    //Assert
+    Mail::fake();
+    $this->assertDatabaseEmpty(User::class);
+    $this->assertDatabaseEmpty(PurchasedCourse::class);
+    //Arrange
+
+    $course = Course::factory()->create([
+        'paddle_product_id' => 'pro_01jhqsgbk6gddxbgy0vtwn6gbf',
+    ]);
+
     //Act
-    (new HandlePaddlePurchaseJob($webhookCall))->handle();
+    (new HandlePaddlePurchaseJob($this->dummyWebhookCall))->handle();
 
     //Assert
     assertDatabaseHas(User::class, [
@@ -47,25 +52,19 @@ it('store paddle purchased', function () {
 
 it('store paddle purchased for given user', function () {
     //Arrange
+    Mail::fake();
     $user = User::factory()->create([
         'email' => 'test@test.es',
     ]);
     $course = Course::factory()->create([
         'paddle_product_id' => 'pro_01jhqsgbk6gddxbgy0vtwn6gbf',
     ]);
-    $webhookCall = \Spatie\WebhookClient\Models\WebhookCall::create([
-        'name' => 'default',
-        'url' => 'some-url',
-        'payload' => [
-            'email' => 'test@test.es',
-            'name' => 'Test user',
-            'p_product_id' => 'pro_01jhqsgbk6gddxbgy0vtwn6gbf',
-        ]
-        ]);
 
-(new HandlePaddlePurchaseJob($webhookCall))->handle();
+
+(new HandlePaddlePurchaseJob($this->dummyWebhookCall))->handle();
 
      //Assert
+
     assertDatabaseCount(User::class, 1);
     assertDatabaseHas(User::class,[
         'email' => $user->email,
@@ -80,22 +79,14 @@ it('store paddle purchased for given user', function () {
 it('sends a user email', function () {
     //Arrange
     Mail::fake();
-    $course = Course::factory()->create([
+    Course::factory()->create([
         'paddle_product_id' => 'pro_01jhqsgbk6gddxbgy0vtwn6gbf',
     ]);
 
-    $webhookCall = \Spatie\WebhookClient\Models\WebhookCall::create([
-        'name' => 'default',
-        'url' => 'some-url',
-        'payload' => [
-            'email' => 'test@test.es',
-            'name' => 'Test user',
-            'p_product_id' => 'pro_01jhqsgbk6gddxbgy0vtwn6gbf',
-        ]
-    ]);
+
 
     //Act
-    (new HandlePaddlePurchaseJob($webhookCall))->handle();
+    (new HandlePaddlePurchaseJob($this->dummyWebhookCall))->handle();
 
     //Assert
     Mail::assertSent(NewPurchasedMail::class);
