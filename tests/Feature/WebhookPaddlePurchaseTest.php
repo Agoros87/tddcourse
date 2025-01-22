@@ -23,6 +23,7 @@ it('can create a valid Paddle webhook signature', function () {
 
 it('stores a Paddle purchase request', function () {
     //Arrange
+    Queue::fake();
     assertDatabaseCount(WebhookCall::class, 0);
     [$arrData] = getValidPaddleWebhookRequest();
     // We will have to generate a fresh signature because the timestamp cannot be older
@@ -40,7 +41,7 @@ it('does not store a invalid Paddle purchase request', function () {
     //Arrange
     assertDatabaseCount(WebhookCall::class, 0);
     // Act
-    post('webhooks', []);
+    post('webhooks', getInvalidPaddleWebhookRequest());
     // Assert
     assertDatabaseCount(WebhookCall::class, 0);
 
@@ -64,7 +65,7 @@ it('does not dispatch a job for invalid paddle request', function () {
     //Arrange
     Queue::fake();
     //Act
-    post('webhooks', []);
+    post('webhooks', getInvalidPaddleWebhookRequest());
 
     //Assert
 
@@ -266,4 +267,9 @@ function generateValidSignedPaddleWebhookRequest(array $data, ?int $timestamp = 
         'Paddle-Signature' => "ts={$ts};h1={$calculatedSig}",
     ];
     return [$data, $header];
+}
+
+function getInvalidPaddleWebhookRequest(): array
+{
+    return [];
 }
