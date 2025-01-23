@@ -3,13 +3,13 @@
 
 use App\Models\Course;
 
-it('$includes purchased details', function () {
+it('includes purchased details', function () {
     //Arrange
 
     $course = Course::factory()->create();
 
     //Act
-    $mail = new \App\Mail\NewPurchasedMail();
+    $mail = new \App\Mail\NewPurchasedMail($course);
 
     //assert
     $mail->assertSeeInText("Thanks for purchasing {$course->title}");

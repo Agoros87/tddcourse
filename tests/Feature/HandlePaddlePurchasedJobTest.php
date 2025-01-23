@@ -83,8 +83,6 @@ it('sends a user email', function () {
         'paddle_product_id' => 'pro_01jhqsgbk6gddxbgy0vtwn6gbf',
     ]);
 
-
-
     //Act
     (new HandlePaddlePurchaseJob($this->dummyWebhookCall))->handle();
 
