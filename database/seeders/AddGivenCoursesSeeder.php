@@ -1,8 +1,11 @@
 <?php
+
 namespace Database\Seeders;
+
 use App\Models\Course;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
+
 class AddGivenCoursesSeeder extends Seeder
 {
     public function run(): void
@@ -20,7 +23,7 @@ class AddGivenCoursesSeeder extends Seeder
             'learnings' => [
                 'How to start with Laravel',
                 'Where to start with Laravel',
-                'Build your first Laravel application'
+                'Build your first Laravel application',
             ],
             'released_at' => now(),
         ]);
@@ -53,6 +56,7 @@ class AddGivenCoursesSeeder extends Seeder
             'released_at' => now(),
         ]);
     }
+
     private function isDataAlreadyGiven(): bool
     {
         return Course::where('title', 'Laravel For Beginners')->exists()

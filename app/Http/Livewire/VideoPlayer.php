@@ -8,6 +8,7 @@ use Livewire\Component;
 class VideoPlayer extends Component
 {
     public $video;
+
     public $courseVideos;
 
     public function mount()
@@ -29,8 +30,6 @@ class VideoPlayer extends Component
     {
         return $this->video->id === $videoToCheck->id;
     }
-
-
 
     public function render()
     {

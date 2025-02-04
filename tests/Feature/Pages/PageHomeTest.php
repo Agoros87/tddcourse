@@ -5,8 +5,6 @@ use illuminate\Support\Carbon;
 
 use function Pest\Laravel\get;
 
-
-
 it('Shows courses overview', function () {
     //Arrange
 
@@ -67,7 +65,6 @@ it('includes login if not logged in', function () {
         ->assertSee(route('login'));
 });
 
-
 it('includes logout if logged in', function () {
     //Arrange
     loginAsUser();
@@ -93,6 +90,6 @@ it('includes courses links', function () {
             route('pages.course-details', $firstCourse),
             route('pages.course-details', $secondCourse),
             route('pages.course-details', $thirdCourse),
-    ]);
+        ]);
 
 });

@@ -1,13 +1,9 @@
 <?php
 
 use App\Models\Course;
-use App\Models\User;
-
-
 use App\Models\Video;
-use function Pest\Laravel\actingAs;
-use function Pest\Laravel\get;
 
+use function Pest\Laravel\get;
 
 it('gives back successful response for page', function () {
     get(route('pages.home'))
@@ -30,8 +26,8 @@ it('gives back successful for dashboard page', function () {
 
     //Act
 
-   get(route('pages.dashboard'))
-       ->assertOk();
+    get(route('pages.dashboard'))
+        ->assertOk();
 
 });
 

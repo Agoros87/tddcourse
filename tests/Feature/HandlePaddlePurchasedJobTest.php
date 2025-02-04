@@ -1,11 +1,11 @@
 <?php
 
-
 use App\Jobs\HandlePaddlePurchaseJob;
 use App\Mail\NewPurchasedMail;
 use App\Models\Course;
 use App\Models\PurchasedCourse;
 use App\Models\User;
+
 use function Pest\Laravel\assertDatabaseCount;
 use function Pest\Laravel\assertDatabaseHas;
 
@@ -17,7 +17,7 @@ beforeEach(function () {
             'email' => 'test@test.es',
             'name' => 'Test user',
             'p_product_id' => 'pro_01jhqsgbk6gddxbgy0vtwn6gbf',
-        ]
+        ],
 
     ]);
 });
@@ -49,7 +49,6 @@ it('store paddle purchased', function () {
     ]);
 });
 
-
 it('store paddle purchased for given user', function () {
     //Arrange
     Mail::fake();
@@ -60,13 +59,12 @@ it('store paddle purchased for given user', function () {
         'paddle_product_id' => 'pro_01jhqsgbk6gddxbgy0vtwn6gbf',
     ]);
 
+    (new HandlePaddlePurchaseJob($this->dummyWebhookCall))->handle();
 
-(new HandlePaddlePurchaseJob($this->dummyWebhookCall))->handle();
-
-     //Assert
+    //Assert
 
     assertDatabaseCount(User::class, 1);
-    assertDatabaseHas(User::class,[
+    assertDatabaseHas(User::class, [
         'email' => $user->email,
         'name' => $user->name,
     ]);

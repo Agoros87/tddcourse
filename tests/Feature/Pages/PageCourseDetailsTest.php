@@ -5,8 +5,6 @@ use App\Models\Video;
 
 use function Pest\Laravel\get;
 
-
-
 it('does not find unrealeased couse', function () {
     // Arrange
     $course = Course::factory()->create();

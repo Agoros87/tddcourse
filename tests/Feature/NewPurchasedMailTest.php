@@ -1,6 +1,5 @@
 <?php
 
-
 use App\Models\Course;
 
 it('includes purchased details', function () {
@@ -15,6 +14,5 @@ it('includes purchased details', function () {
     $mail->assertSeeInText("Thanks for purchasing {$course->title}");
     $mail->assertSeeInText('Login');
     $mail->assertSeeInHtml(route('login'));
-
 
 });

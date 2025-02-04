@@ -1,13 +1,19 @@
 <?php
+
 namespace App;
+
 use Illuminate\Http\Request;
 use Spatie\WebhookClient\SignatureValidator\SignatureValidator;
 use Spatie\WebhookClient\WebhookConfig;
+
 class PaddleSignatureValidator implements SignatureValidator
 {
     public const SIGNATURE_HEADER = 'Paddle-Signature';
+
     public const HASH_ALGORITHM_1 = 'h1';
+
     protected ?int $maximumVariance = 5;
+
     public function isValid(Request $request, WebhookConfig $config): bool
     {
         $signature = $request->header(self::SIGNATURE_HEADER);
@@ -30,8 +36,10 @@ class PaddleSignatureValidator implements SignatureValidator
                 }
             }
         }
+
         return false;
     }
+
     /**
      * Parse the signature header.
      */
@@ -50,6 +58,7 @@ class PaddleSignatureValidator implements SignatureValidator
                 };
             }
         }
+
         return [
             $components['ts'],
             $components['hashes'],

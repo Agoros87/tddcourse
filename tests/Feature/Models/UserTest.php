@@ -4,7 +4,6 @@ use App\Models\Course;
 use App\Models\User;
 use App\Models\Video;
 
-
 it('has courses', function () {
     //Arrange
     $user = User::factory()
@@ -17,7 +16,6 @@ it('has courses', function () {
         ->each->toBeInstanceOf(Course::class);
 
 });
-
 
 it('has videos', function () {
     //Arrange

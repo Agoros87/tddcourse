@@ -2,9 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -61,7 +59,7 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
-    public function purchasedCourses():BelongsToMany
+    public function purchasedCourses(): BelongsToMany
     {
         return $this->belongsToMany(Course::class, 'purchased_courses')
             ->withTimestamps()

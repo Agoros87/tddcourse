@@ -1,7 +1,8 @@
 <?php
 
-
-use App\Models\{User, Video, Course};
+use App\Models\Course;
+use App\Models\User;
+use App\Models\Video;
 
 it('has course', function () {
     //Arrange
@@ -18,7 +19,7 @@ it('has course', function () {
 it('given back readable video duration', function () {
     //Arrange
     $video = Video::factory()->create([
-        'duration_in_min' => 10
+        'duration_in_min' => 10,
     ]);
     //Act & Assert
     expect($video->getReadableDuration())->toEqual('10min');
@@ -32,9 +33,7 @@ it('tells if current user not yet watched a given video', function () {
     loginAsUser();
     expect($video->alreadyWatchedByCurrentUser())->toBeFalse();
 
-
 });
-
 
 it('tells if current user has already watched a given video', function () {
     // Arrange

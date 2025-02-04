@@ -4,9 +4,8 @@ use App\Models\Course;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Sequence;
+
 use function Pest\Laravel\get;
-
-
 
 it('cannot be access by guest', closure: function () {
 
@@ -33,7 +32,7 @@ it('list purchased courses', function () {
         ->assertSeeText([
             'Course A',
             'Course B',
-            ]);
+        ]);
 });
 
 it('does not list other courses', function () {
@@ -62,7 +61,7 @@ it('show latest purchased courses first ', function () {
         ->assertOk()
         ->assertSeeTextInOrder([
             $secondCourse->title,
-            $firstCourse->title
+            $firstCourse->title,
         ]);
     //Assert
 });

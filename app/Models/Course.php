@@ -20,9 +20,6 @@ class Course extends Model
         return $this->hasMany(Video::class);
     }
 
-
-
-
     public function scopeReleased(Builder $query): Builder
     {
         return $query->whereNotNull('released_at');

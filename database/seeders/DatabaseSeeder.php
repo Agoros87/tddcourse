@@ -25,7 +25,6 @@ class DatabaseSeeder extends Seeder
             AddGivenVideosSeeder::class,
             AddLocalTestUserSeeder::class,
 
-
         ]);
     }
 }

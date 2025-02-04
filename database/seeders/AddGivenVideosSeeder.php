@@ -1,8 +1,11 @@
 <?php
+
 namespace Database\Seeders;
+
 use App\Models\Course;
 use App\Models\Video;
 use Illuminate\Database\Seeder;
+
 class AddGivenVideosSeeder extends Seeder
 {
     public function run(): void
@@ -80,11 +83,13 @@ class AddGivenVideosSeeder extends Seeder
             ],
         ]);
     }
+
     private function isDataAlreadyGiven(): bool
     {
         $laravelForBeginnersCourse = Course::where('title', 'Laravel For Beginners')->first();
         $advancedLaravelCourse = Course::where('title', 'Advanced Laravel')->first();
         $tddTheLaravelWayCourse = Course::where('title', 'TDD The Laravel Way')->first();
+
         return $laravelForBeginnersCourse->videos()->count() === 3
             && $advancedLaravelCourse->videos()->count() === 3
             && $tddTheLaravelWayCourse->videos()->count() === 2;
